@@ -6,7 +6,7 @@ import glob
 
 
 encoding = locale.getdefaultlocale()[1]
-
+# Распознаю штрихкод
 def get_code(file):
 
 	try:
@@ -17,7 +17,7 @@ def get_code(file):
 		code = raw_code.split(':',1)[1]
 		return(code)
 	except:
-		return("")
+		return("unreadable_code")
 
 
 image_files=glob.glob('*.JPG') + glob.glob('*.png')
@@ -29,11 +29,19 @@ for file in image_files:
 
  code = get_code(file)
 
+ # Создаю папку и присваиваю имя штрихкода
  folder = os.path.join(os.getcwd(), code)
  os.makedirs(folder, exist_ok=True)
 
- os.rename(file_path, folder)
+ # Распределяю файлы по папкам, присваиваю штрихкод в имя файла для дальнейшей привязки
+ os.rename(file_path, folder + file)
+
+		
+ # 1. Запускаю цикл перебора файлов в папке "unreadable_code". Скопировать первые два файла в первую папку
+		# поиск осуществлять по времени создания файла.
+ # 2. Удаляю распознанные файлы из подкаталогов, находя их по ранее присвоенному штрихкоду.
+
  
- # Если папке присвоен код переименовать два файла идущих следующими и скопировать в папку.
- # Иначе переместить 3 файла в папку unreadable_code
+ 
+ 
  
