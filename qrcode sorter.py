@@ -3,6 +3,7 @@ import subprocess
 import os
 import locale
 import glob
+import shutil
 
 
 encoding = locale.getdefaultlocale()[1]
@@ -36,10 +37,23 @@ for file in image_files:
  # Распределяю файлы по папкам, присваиваю штрихкод в имя файла для дальнейшей привязки
  os.rename(file_path, folder + file)
 
-		
- # 1. Запускаю цикл перебора файлов в папке "unreadable_code". Скопировать первые два файла в первую папку
-		# поиск осуществлять по времени создания файла.
- # 2. Удаляю распознанные файлы из подкаталогов, находя их по ранее присвоенному штрихкоду.
+ # Нахожу все файлы в заданной папке
+ folder_path = "unreadable_code"
+ images = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+
+ # Тут должен быть код, который находит файлы и копирует два элемента по времени создания
+ for image in images:
+    folder_name = image.
+
+ image_files.sort(key=os.path.getmtime)
+
+ # Код, который переносит файл из папки unreadable_code в папки со штрихкодами
+ old_image_path = os.path.join(folder_path, image)
+ new_image_path = os.path.join(folder, image)
+ shutil.move(old_image_path, new_image_path)
+
+
+ # Код, который удаляет распознанные файлы из подкаталогов, находя их по ранее присвоенному штрихкоду.
 
  
  
