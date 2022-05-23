@@ -1,12 +1,35 @@
-
-import subprocess
 import os
-import locale
+import subprocess
 import glob
-import shutil
+from math import ceil, floor
+
+folder_address = os.path.abspath(os.curdir) # адрес папки
+directory = os.fsencode(folder_address)
+i = 0
+files_in_folder = 3 # можно менять значение, сколько файлов должно быть в папке.
+
+# на данный момент ищет все файлы. Нужно сделать, чтобы выбирал только файлы jpg
+num_of_files = num_of_files = len([name for name in os.listdir(directory)  if  os.path.isfile(os.path.join(directory, name))]) 
 
 
-encoding = locale.getdefaultlocale()[1]
+
+for x in range(ceil(num_of_files / files_in_folder)): 
+    path = folder_address + "\\" + str(x + 1) 
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+files = (file for file in os.listdir(directory)
+        if os.path.isfile(os.path.join(directory, file))) 
+for file in files:
+   
+    file_name = os.fsdecode(file)
+    file_path = os.path.join(folder_address, file_name)
+    new_file_path = os.path.join(folder_address, str(floor(i / files_in_folder) + 1), file_name)
+    os.rename(file_path, new_file_path)
+    i += 1
+
+
+
 # Распознаю штрихкод
 def get_code(file):
 
@@ -34,26 +57,12 @@ for file in image_files:
  folder = os.path.join(os.getcwd(), code)
  os.makedirs(folder, exist_ok=True)
 
- # Распределяю файлы по папкам, присваиваю штрихкод в имя файла для дальнейшей привязки
+ # Распределяю файлы по папкам, присваиваю штрихкод
  os.rename(file_path, folder + file)
 
- # Нахожу все файлы в заданной папке
- folder_path = "unreadable_code"
- images = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+ # Тут должен быть код, который удалит файлы со штрихкодом
 
- # Тут должен быть код, который находит файлы и копирует два элемента по времени создания
- for image in images:
-    folder_name = image.
-
- image_files.sort(key=os.path.getmtime)
-
- # Код, который переносит файл из папки unreadable_code в папки со штрихкодами
- old_image_path = os.path.join(folder_path, image)
- new_image_path = os.path.join(folder, image)
- shutil.move(old_image_path, new_image_path)
-
-
- # Код, который удаляет распознанные файлы из подкаталогов, находя их по ранее присвоенному штрихкоду.
+ 
 
  
  
