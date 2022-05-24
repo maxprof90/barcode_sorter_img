@@ -1,25 +1,31 @@
+
 import os
 import subprocess
 import glob
+import locale
+import sys
+from pathlib import Path
 from math import ceil, floor
 
-folder_address = os.path.abspath(os.curdir) # адрес папки
+folder_address = "D:\Phyton\IMAGES" # адрес папки, где нужно обработать фото
 directory = os.fsencode(folder_address)
 i = 0
 files_in_folder = 3 # можно менять значение, сколько файлов должно быть в папке.
 
-# на данный момент ищет все файлы. Нужно сделать, чтобы выбирал только файлы jpg
+
 num_of_files = num_of_files = len([name for name in os.listdir(directory)  if  os.path.isfile(os.path.join(directory, name))]) 
 
 
 
 for x in range(ceil(num_of_files / files_in_folder)): 
-    path = folder_address + "\\" + str(x + 1) 
+    
+    path = folder_address + "\\" + str(x+1)
     if not os.path.exists(path):
         os.mkdir(path)
 
 files = (file for file in os.listdir(directory)
         if os.path.isfile(os.path.join(directory, file))) 
+
 for file in files:
    
     file_name = os.fsdecode(file)
@@ -28,9 +34,9 @@ for file in files:
     os.rename(file_path, new_file_path)
     i += 1
 
-
-
-# Распознаю штрихкод
+encoding = locale.getdefaultlocale()[1]
+# до этого момента код работает, теперь нужно зайти в подкаталоги, распознать штрихкод и переименовать папку
+# Функция распознавания штрихкода
 def get_code(file):
 
 	try:
@@ -44,21 +50,25 @@ def get_code(file):
 		return("unreadable_code")
 
 
-image_files=glob.glob('*.JPG') + glob.glob('*.png')
+image_files =glob.glob('*.JPG') + glob.glob('*.png')
+   
 print(image_files)
 
-for file in image_files:
 
- file_path = os.path.join(os.getcwd(), file) 
 
- code = get_code(file)
+#for file in image_files:
+
+ 
+# file_path = os.path.join(os.getcwd(), file) 
+
+# code = get_code(file)
 
  # Создаю папку и присваиваю имя штрихкода
- folder = os.path.join(os.getcwd(), code)
- os.makedirs(folder, exist_ok=True)
+# folder =  os.path.join(os.getcwd(), code) 
+# os.makedirs(folder, exist_ok=True)
 
  # Распределяю файлы по папкам, присваиваю штрихкод
- os.rename(file_path, folder + file)
+ #os.rename(file_path, folder + file)
 
  # Тут должен быть код, который удалит файлы со штрихкодом
 
